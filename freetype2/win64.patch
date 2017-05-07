@@ -1,6 +1,6 @@
 diff -pNaur include_old/ftimage.h include/ftimage.h
---- include_old/ftimage.h	Sat Mar  7 18:56:10 2015
-+++ include/ftimage.h	Sat Mar  7 22:12:11 2015
+--- include_old/ftimage.h	2015-03-11 06:47:11.000000000 +0100
++++ include/ftimage.h	2017-05-07 20:17:06.260974100 +0200
 @@ -55,7 +55,11 @@ FT_BEGIN_HEADER
    /*    on the context, these can represent distances in integer font      */
    /*    units, or 16.16, or 26.6 fixed-point pixel coordinates.            */
@@ -14,9 +14,27 @@ diff -pNaur include_old/ftimage.h include/ftimage.h
  
  
    /*************************************************************************/
+diff -pNaur include_old/ftsystem.h include/ftsystem.h
+--- include_old/ftsystem.h	2015-03-11 06:47:11.000000000 +0100
++++ include/ftsystem.h	2017-05-07 20:17:21.707763600 +0200
+@@ -330,9 +330,13 @@ FT_BEGIN_HEADER
+   typedef struct  FT_StreamRec_
+   {
+     unsigned char*       base;
++#if _WIN64
++    unsigned __int64     size;
++    unsigned __int64     pos;
++#else
+     unsigned long        size;
+     unsigned long        pos;
+-
++#endif
+     FT_StreamDesc        descriptor;
+     FT_StreamDesc        pathname;
+     FT_Stream_IoFunc     read;
 diff -pNaur include_old/fttypes.h include/fttypes.h
---- include_old/fttypes.h	Sat Mar  7 21:46:14 2015
-+++ include/fttypes.h	Sat Mar  7 21:52:41 2015
+--- include_old/fttypes.h	2015-03-11 06:47:11.000000000 +0100
++++ include/fttypes.h	2017-05-07 20:17:33.539547200 +0200
 @@ -239,7 +239,11 @@ FT_BEGIN_HEADER
    /* <Description>                                                         */
    /*    A typedef for signed long.                                         */
